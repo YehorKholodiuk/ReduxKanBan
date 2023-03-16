@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import Column from "./Column";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {connect} from "react-redux";
+import ModalDeleteCreateEdit from "./ModalDeleteCreateEdit";
 import './App.css';
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <h1>{props.appName}</h1>
+
+
+        <ModalDeleteCreateEdit buttonLabel='Create Task' buttonStyle="btn btn-outline-info"
+                               modalTitle="Create Task"
+
+        />
+        <div className="container">
+          <div className="row align-items-start">
+            {props.statuses.map(status=>
+                <Column
+                    key={status._id}
+                    status={status}
+                />)}
+          </div>
+        </div>
+      </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  appName:state.appName,
+  statuses:state.statuses
+})
+export default connect(mapStateToProps)(App);
